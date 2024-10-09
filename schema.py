@@ -36,8 +36,80 @@ class CreatePerson(graphene.Mutation):
         db.session.commit()
         return CreatePerson(person=person)
 
+class AddSibling(graphene.Mutation):
+    class Arguments:
+        person_id = graphene.Int(required=True)
+        sibling_name = graphene.String(required=True)
+        sibling_gender = graphene.String()
+
+    person = graphene.Field(PersonType)
+
+    def mutate(self, info, person_id, sibling_name, sibling_gender=None):
+        person = Person.query.get(person_id)
+        if not person:
+            raise Exception("Person not found")
+        
+        sibling = Person(name=sibling_name, gender=sibling_gender, father_id=person.father_id, mother_id=person.mother_id)
+        db.session.add(sibling)
+        db.session.commit()
+        return AddSibling(person=sibling)
+
+class AddSpouse(graphene.Mutation):
+    class Arguments:
+        person_id = graphene.Int(required=True)
+        spouse_name = graphene.String(required=True)
+        spouse_gender = graphene.String()
+
+    person = graphene.Field(PersonType)
+
+    def mutate(self, info, person_id, spouse_name, spouse_gender=None):
+        person = Person.query.get(person_id)
+        if not person:
+            raise Exception("Person not found")
+
+        spouse = Person(name=spouse_name, gender=spouse_gender)
+        db.session.add(spouse)
+        db.session.commit()
+
+        # Update the spouse relationship
+        person.spouse = spouse
+        db.session.commit()
+
+        return AddSpouse(person=spouse)
+
+class AddChild(graphene.Mutation):
+    class Arguments:
+        parent_id = graphene.Int(required=True)
+        child_name = graphene.String(required=True)
+        child_gender = graphene.String()
+
+    person = graphene.Field(PersonType)
+
+    def mutate(self, info, parent_id, child_name, child_gender=None):
+        parent = Person.query.get(parent_id)
+        if not parent:
+            raise Exception("Parent not found")
+
+        child = Person(name=child_name, gender=child_gender)
+        db.session.add(child)
+        db.session.commit()
+
+        # Update the parent-child relationship
+        if parent.spouse:
+            child.father_id = parent.id if parent.gender == "Male" else parent.spouse.id
+            child.mother_id = parent.id if parent.gender == "Female" else parent.spouse.id
+        else:
+            child.father_id = parent.id
+        db.session.commit()
+
+        return AddChild(person=child)
+
+
 class Mutation(graphene.ObjectType):
     create_person = CreatePerson.Field()
+    add_sibling = AddSibling.Field()
+    add_spouse = AddSpouse.Field()
+    add_child = AddChild.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
 
