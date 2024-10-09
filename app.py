@@ -2,16 +2,19 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_graphql import GraphQLView
 from schema import schema
+from models import db
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 
-# Configuring the SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///nasab.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#Initialize db
+db.init_app(app)
 
-# Initialize SQLAlchemy
-db = SQLAlchemy(app)
-
+#Create the database before the first request
+with app.app_context():
+    db.create_all()
+    print("Tables created!")
 
 @app.route('/')
 def index():

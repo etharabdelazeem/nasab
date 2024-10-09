@@ -1,27 +1,25 @@
-from app import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class Person(db.Model):
-    __tablename__ = 'person'
-
+    __tablename__ = 'persons'
+    
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    gender = db.Column(db.String(10), nullable=True)
+    gender = db.Column(db.String(10))  # Optional field for gender
+    father_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
+    mother_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
+    spouse_id = db.Column(db.Integer, db.ForeignKey('persons.id'), nullable=True)
 
-    # Self-referential relationships for parents and spouse
-    father_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=True)
-    mother_id = db.Column(db.Integer, db.ForeignKey('person.id'), nullable=True)
+    # Relationships
+    father = db.relationship('Person', remote_side=[id], backref='children_father', 
+                             foreign_keys=[father_id])
+    mother = db.relationship('Person', remote_side=[id], backref='children_mother', 
+                             foreign_keys=[mother_id])
+    spouse = db.relationship('Person', remote_side=[id], backref='spouses', 
+                             foreign_keys=[spouse_id])
 
-    father = db.relationship('Person', remote_side=[id], foreign_keys=[father_id], backref='children_from_father')
-    mother = db.relationship('Person', remote_side=[id], foreign_keys=[mother_id], backref='children_from_mother')
+    def __repr__(self):
+        return f'<Person {self.name}>'
 
-    # Many-to-Many relationship for spouses (if necessary)
-    spouse = db.relationship('Person', secondary='spouses', 
-                             primaryjoin='Person.id==Spouses.person_id', 
-                             secondaryjoin='Person.id==Spouses.spouse_id', 
-                             backref='spouses')
-
-# Define the many-to-many relationship for spouses
-class Spouses(db.Model):
-    __tablename__ = 'spouses'
-    person_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
-    spouse_id = db.Column(db.Integer, db.ForeignKey('person.id'), primary_key=True)
