@@ -1,6 +1,7 @@
 import graphene
 from models import db, Person
 
+
 # Define GraphQL types
 class PersonType(graphene.ObjectType):
     id = graphene.Int()
@@ -9,6 +10,7 @@ class PersonType(graphene.ObjectType):
     father_id = graphene.Int()
     mother_id = graphene.Int()
     spouse_id = graphene.Int()
+
 
 class Query(graphene.ObjectType):
     all_persons = graphene.List(PersonType)
@@ -19,6 +21,7 @@ class Query(graphene.ObjectType):
 
     def resolve_person_by_id(self, info, id):
         return Person.query.get(id)
+
 
 class CreatePerson(graphene.Mutation):
     class Arguments:
@@ -35,6 +38,54 @@ class CreatePerson(graphene.Mutation):
         db.session.add(person)
         db.session.commit()
         return CreatePerson(person=person)
+
+
+class UpdatePerson(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        name = graphene.String()
+        gender = graphene.String()
+        father_id = graphene.Int()
+        mother_id = graphene.Int()
+        spouse_id = graphene.Int()
+
+    person = graphene.Field(PersonType)
+
+    def mutate(self, info, id, name=None, gender=None, father_id=None, mother_id=None, spouse_id=None):
+        person = Person.query.get(id)
+        if not person:
+            raise Exception("Person not found")
+
+        if name:
+            person.name = name
+        if gender:
+            person.gender = gender
+        if father_id is not None:
+            person.father_id = father_id
+        if mother_id is not None:
+            person.mother_id = mother_id
+        if spouse_id is not None:
+            person.spouse_id = spouse_id
+
+        db.session.commit()
+        return UpdatePerson(person=person)
+
+
+class DeletePerson(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+
+    success = graphene.Boolean()
+
+    def mutate(self, info, id):
+        person = Person.query.get(id)
+        if not person:
+            raise Exception("Person not found")
+        
+        db.session.delete(person)
+        db.session.commit()
+        return DeletePerson(success=True)
+
 
 class AddSibling(graphene.Mutation):
     class Arguments:
@@ -53,6 +104,7 @@ class AddSibling(graphene.Mutation):
         db.session.add(sibling)
         db.session.commit()
         return AddSibling(person=sibling)
+
 
 class AddSpouse(graphene.Mutation):
     class Arguments:
@@ -76,6 +128,7 @@ class AddSpouse(graphene.Mutation):
         db.session.commit()
 
         return AddSpouse(person=spouse)
+
 
 class AddChild(graphene.Mutation):
     class Arguments:
@@ -107,9 +160,10 @@ class AddChild(graphene.Mutation):
 
 class Mutation(graphene.ObjectType):
     create_person = CreatePerson.Field()
+    update_person = UpdatePerson.Field()
+    delete_person = DeletePerson.Field()
     add_sibling = AddSibling.Field()
     add_spouse = AddSpouse.Field()
     add_child = AddChild.Field()
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
-
