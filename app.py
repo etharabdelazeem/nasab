@@ -14,7 +14,6 @@ db.init_app(app)
 #Create the database before the first request
 with app.app_context():
     db.create_all()
-    print("Tables created!")
 
 @app.route('/')
 def index():
