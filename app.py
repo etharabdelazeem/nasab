@@ -38,7 +38,7 @@ def load_user(user_id):
 def index():
     return "Welcome to Nasab"
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -50,7 +50,7 @@ def register():
         db.session.commit()
         flash('Registration successful! Please log in.', 'success')
         return redirect(url_for('login'))
-    return render_template('register.html')
+    return redirect("http://localhost:8080/signup")
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -65,7 +65,7 @@ def login():
         else:
             flash('Invalid username or password', 'danger')
     
-    return render_template('login.html')
+    return redirect("http://localhost:8080/login")
 
 @app.route('/logout')
 @login_required

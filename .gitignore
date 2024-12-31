@@ -1,4 +1,7 @@
 venv/
 __pycache__/
 instance/
+node_modules/
+package-lock.json
 config.py
+.vercel
