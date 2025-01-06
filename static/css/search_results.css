@@ -1,0 +1,235 @@
+body {
+    font-family: system-ui;
+    background-image: url('../images/background.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+main {
+    width: 50%;
+}
+
+p {
+    margin-bottom: 0;
+    margin-top: 40px;
+}
+
+form{
+    width: 90%;
+}
+
+.container {
+    background: #e9e8e5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+select, input {
+    width: 270px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #555;
+}
+
+.family-container {
+    background: #e9e8e5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-self: center;
+    width: 600px;
+}
+
+.card-container {
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+}
+
+.family-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    justify-self: center;
+    text-align: left;
+}
+
+.family-card h2 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.family-card p {
+    margin: 5px 0;
+    font-size: 1em;
+    color: #555;
+}
+
+/* Add Member Page Styles */
+.add-member-body {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h3 {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    font-weight: 400;
+}
+
+.search-container {
+	margin-top: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e9e8e5;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-container h1 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 40px;
+    margin-top: 0px;
+}
+
+.add-member-feild {
+    display: flex;
+    width: -webkit-fill-available;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search-button {
+    margin-top: 30px;
+    display: flex;
+    height: 10px;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    font-size: medium;
+    background-color: orange;
+    padding: 15px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    border-color: orange;
+    border: solid;
+    border-width: thin;
+    transition: background-color 0.3s ease;
+    transition: color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #e9e8e5;
+    color: orange;
+}
+
+header {
+	margin-top: 10px;
+    width: -webkit-fill-available;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+h1{
+    align-self: center;
+    margin-top: 0;
+}
+
+nav {
+    width: -webkit-fill-available;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-button {
+    display: flex;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: orange;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-button:hover {
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    border-color: orange;
+    border: solid;
+    border-width: thin;
+}
+
+a {
+    color: orange;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+a:hover {
+    color: orange;
+}
+
+footer {
+	margin-top: 60px;
+	margin-bottom: 10px;
+}
+
+@media (min-width: 950px) {
+    form {
+    width: 355px;
+    }
+    .logout-button {
+        width: 460px;
+    }
+}
+
+@media (min-width: 1100px) {
+    main {
+	    width: 550px;
+    }
+}
+
+@media (max-width: 900px) {
+	input {
+		width: 90%;
+	}
+}
