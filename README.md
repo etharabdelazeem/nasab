@@ -128,10 +128,10 @@ This project is not yet licensed.
 
 ## Screenshots
 ### Login Page
-![Login Page](assets/login-page.png)
+![Login Page](static/images/login-page.png)
 
 ### Dashboard
-![Dashboard](assets/dashboard.png)
+![Dashboard](static/images/dashboard.png)
 
 ### Family Page
-![Family Page](assets/family-page.png)
+![Family Page](static/images/family-page.png)
