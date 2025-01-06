@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Members</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/family.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}">
+</head>
+<body>
+    <!-- Include flash messages -->
+    {% include 'flash.html' %}
+
+    <!-- Main content of the page -->
+    <header>
+        <h1>Family Members</h1>
+
+        <nav>
+                <div class="nav-button">
+                        <a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chevron-left"></i> Dashboard</a>
+                </div>
+                <div class= "nav-button">
+                        <a href="{{ url_for('logout') }}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+        </nav>
+    </header>
+    <main>
+    <div class="family-container">
+    <div class="card-container">
+            {% for member in family_members %}
+            <div class="family-card">
+		    <h2><i class="fa-solid fa-user-group"></i>  {{ member.name }}</h2>
+                <p><strong>Gender:</strong> {{ member.gender or 'N/A' }}</p>
+                <p><strong>Father:</strong> {{ member.father.name if member.father else 'N/A' }}</p>
+                <p><strong>Mother:</strong> {{ member.mother.name if member.mother else 'N/A' }}</p>
+                <p><strong>Spouse:</strong> {{ member.spouse.name if member.spouse else 'N/A' }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nasab</p>
+    </footer>
+</body>
+</html>
+

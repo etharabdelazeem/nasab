@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_results.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Search Result</h1>
+        <nav>
+                <div class="nav-button">
+                        <a href="{{ url_for('search_family') }}"><i class="fa-solid fa-chevron-left"></i> Search</a>
+                </div>
+                <div class= "nav-button">
+                        <a href="{{ url_for('logout') }}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+        </nav>
+    </header>
+    <div class="results-container">
+        {% if results %}
+            <div class="card-container">
+                {% for result in results %}
+                <div class="family-card">
+                    <h2>{{ result.name }}</h2>
+                    <p><strong>Gender:</strong> {{ result.gender or 'N/A' }}</p>
+                    <p><strong>Father:</strong> {{ result.father.name if result.father else 'N/A' }}</p>
+                    <p><strong>Mother:</strong> {{ result.mother.name if result.mother else 'N/A' }}</p>
+                    <p><strong>Spouse:</strong> {{ result.spouse.name if result.spouse else 'N/A' }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No results found for your search.</p>
+        {% endif %}
+    </div>
+    <footer>
+        <p>&copy; 2025 Nasab</p>
+    </footer>
+</body>
+</html>
+

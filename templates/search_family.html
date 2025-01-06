@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Family</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search_family.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+   <header>
+        <h1>Search Family Members</h1>
+        <nav>
+                <div class="nav-button">
+                        <a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chevron-left"></i> Dashboard</a>
+                </div>
+                <div class= "nav-button">
+                        <a href="{{ url_for('logout') }}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+        </nav>
+    </header>
+   <main>
+    <div class="search-container">
+        <form action="{{ url_for('search_family') }}" method="POST">
+            <input type="text" id="search-bar" name="query" placeholder="Search by name..." autocomplete="off">
+            <ul id="suggestions"></ul>
+            <button class="search-button" type="submit">Search</button>
+        </form>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('#search-bar').on('input', function () {
+                let query = $(this).val();
+                if (query.length > 0) {
+                    $.ajax({
+                        url: "{{ url_for('search_suggestions') }}",
+                        data: { query: query },
+                        success: function (data) {
+                            let suggestions = $('#suggestions');
+                            suggestions.empty();
+                            data.forEach(function (name) {
+                                suggestions.append(`<li>${name}</li>`);
+                            });
+                        }
+                    });
+                } else {
+                    $('#suggestions').empty();
+                }
+            });
+
+            // Handle click on suggestions
+            $('#suggestions').on('click', 'li', function () {
+                $('#search-bar').val($(this).text());
+                $('#suggestions').empty();
+            });
+        });
+    </script>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nasab</p>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Family Member</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_member.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/flash.css') }}"
+>
+</head>
+<body>
+    <!-- Include flash messages -->
+    {% include 'flash.html' %}
+
+    <!-- Main content of the page -->
+    <header>
+        <h1>Add a Family Member</h1>
+        <nav>
+		<div class="nav-button">
+			<a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-chevron-left"></i> Dashboard</a>
+		</div>
+		<div class= "nav-button">
+			<a href="{{ url_for('logout') }}">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
+		</div>
+        </nav>
+    </header>
+    <main>
+	    <div class="add-member-container">
+	<form class="add_member-form" method="POST" action="{{ url_for('add_member') }}">
+    		<div class="add-member-feild">
+        		<label for="name">Name</label>
+        		<input type="text" id="name" name="name" required>
+    		</div>
+    
+    		<div class="add-member-feild">
+        		<label for="gender">Gender</label>
+        		<select id="gender" name="gender">
+            			<option value="Male">Male</option>
+            			<option value="Female">Female</option>
+		        </select>
+		</div>
+
+    		<div class="add-member-feild">
+		        <label for="father_id">Father</label>
+		        <select id="father_id" name="father_id">
+		            <option value="">None</option>
+		            {% for member in family_members %}
+		                <option value="{{ member.id }}">{{ member.name }}</option>
+			    {% endfor %}
+        		</select>
+    		</div>
+
+    		<div class="add-member-feild">
+        		<label for="mother_id">Mother</label>
+        		<select id="mother_id" name="mother_id">
+		            <option value="">None</option>
+		            {% for member in family_members %}
+                		<option value="{{ member.id }}">{{ member.name }}</option>
+            		    {% endfor %}
+        		</select>
+    		</div>
+
+    		<div class="add-member-feild">
+        		<label for="spouse_id">Spouse</label>
+        		<select id="spouse_id" name="spouse_id">
+            			<option value="">None</option>
+            			{% for member in family_members %}
+                			<option value="{{ member.id }}">{{ member.name }}</option>
+            			{% endfor %}
+        		</select>
+	    	</div>
+
+		<button class= "add-member-btn" type="submit">Add Member</button>
+	</form>
+	    </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nasab</p>
+    </footer>
+</body>
+</html>
