@@ -34,7 +34,7 @@ Since we are yet to deploy, here is what you can do:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/nasab.git
+   git clone https://github.com/etharabdelazeem/nasab.git
    cd nasab
    ```
 
